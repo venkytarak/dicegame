@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        height: 100vh;
+        width: 100%;
+        background-image: linear-gradient(
+          160deg,
+          rgba(251, 8, 8, 0.9),
+          rgba(249, 8, 201, 0.9)
+        );
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2rem;
+      }
+      .startup {
+        height: 60%;
+        width: 50%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
+        padding: 5rem 0;
+        background-image: linear-gradient(
+          360deg,
+          rgba(0, 0, 0, 0.4),
+          rgba(0, 0, 0, 0.4)
+        );
+        border-radius: 20px;
+      }
+      form {
+        height: 55%;
+        width: 20%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
+      }
+      input {
+        height: 2.3rem;
+        width: 10rem;
+        border: none;
+        text-align: center;
+      }
+
+      .startup button,
+      .matter button {
+        background-color: rgb(244, 69, 69);
+        color: white;
+        cursor: pointer;
+      }
+
+      .section1 {
+        height: 70%;
+        width: 70%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .first,
+      .middle,
+      .last {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: center;
+        flex-direction: column;
+        padding: 2.5rem 0;
+      }
+
+      .first {
+        height: 100%;
+        width: 50%;
+        background-color: rgba(251, 207, 238, 0.8);
+        border-radius: 1rem 0 0 1rem;
+      }
+      .ltop {
+        height: 30%;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+      }
+
+      .lbtm {
+        height: 25%;
+        width: 35%;
+        background-color: rgb(196, 4, 110);
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        padding: 1rem 0;
+        color: white;
+        border-radius: 7px;
+      }
+
+      .middle {
+        height: 100%;
+        width: 0%;
+        z-index: 5;
+      }
+      .middle img {
+        height: 6rem;
+        width: 6rem;
+      }
+      button {
+        height: 2.6rem;
+        border-radius: 1rem;
+        border: none;
+        width: 6rem;
+        font-size: 1rem;
+      }
+      .btnbtm,
+      .btnup {
+        height: 25%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      .last {
+        height: 100%;
+        width: 50%;
+        background-color: rgb(187, 66, 150);
+        border-radius: 0 1rem 1rem 0;
+      }
+
+      .modal {
+        height: 80%;
+        width: 80%;
+        color: white;
+        display: none;
+        background-image: url("./win.jpg");
+        background-size: cover;
+        background-repeat: none;
+        z-index: 10;
+      }
+      .matter {
+        height: 5rem;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+
+      .section1-hide {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="startup">
+      <h1 style="text-align: center; font-size: 5rem; color: white">
+        Dice Game
+      </h1>
+      <form action="#">
+        <input
+          type="text"
+          placeholder="Enter player1 name"
+          id="name1"
+          value=""
+        />
+        <input
+          type="text"
+          placeholder="Enter player2 name"
+          id="name2"
+          value=""
+        />
+        <button onclick="closeModel()">Next</button>
+      </form>
+    </section>
+    <section class="section1">
+      <div class="first">
+        <div class="ltop">
+          <h1 class="name-1">PLAYER 1</h1>
+          <h1 style="font-size: 3rem" class="score1">0</h1>
+        </div>
+        <div class="lbtm">
+          <h4>CURRENT</h4>
+          <h2 class="p1cur">0</h2>
+        </div>
+      </div>
+      <div class="middle">
+        <div class="btnup" style="height: 40%">
+          <button class="new" style="width: 8rem" onclick="newgame1()">
+            NEW GAME
+          </button>
+          <img src="dice-1.png" class="image" alt="" />
+        </div>
+        <div class="btnbtm">
+          <button class="roll">ROLL DICE</button>
+          <button onclick="shift()">HOLD</button>
+        </div>
+      </div>
+      <div class="last">
+        <div class="ltop">
+          <h1 class="name-2">PLAYER 2</h1>
+          <h1 style="font-size: 3rem" class="score2">0</h1>
+        </div>
+        <div class="lbtm">
+          <h4>CURRENT</h4>
+          <h2 class="p2cur">0</h2>
+        </div>
+      </div>
+    </section>
+    <div class="modal">
+      <div class="matter">
+        <h1 id="winnermsg"></h1>
+      </div>
+    </div>
+  </body>
+  <script>
+    const startup = document.querySelector(".startup");
+    const p1name = document.getElementById("name1");
+    const p2name = document.getElementById("name2");
+    const section1 = document.querySelector(".section1");
+    const play1 = document.querySelector(".first");
+    const play2 = document.querySelector(".last");
+    const p1cur = document.querySelector(".p1cur");
+    const p2cur = document.querySelector(".p2cur");
+    const rolldice = document.querySelector(".roll");
+    const diceimg = document.querySelector(".image");
+    const modal = document.querySelector(".modal");
+
+    let curscore = 0;
+    let actplay = 1;
+    let p1score = 0;
+    let p2score = 0;
+
+    section1.classList.add("section1-hide");
+
+    function bgchange(a, b) {
+      play1.classList.remove(a);
+      play1.classList.add(b);
+      play2.classList.remove(b);
+      play2.classList.add(a);
+    }
+    function shift() {
+      if (actplay === 1) {
+        bgchange("first", "last");
+        p1score += curscore;
+        document.querySelector(`.score1`).textContent = p1score;
+        curscore = 0;
+      } else {
+        bgchange("last", "first");
+        p2score += curscore;
+        document.querySelector(`.score2`).textContent = p2score;
+        curscore = 0;
+      }
+      actplay = actplay === 1 ? 2 : 1;
+    }
+    function init() {
+      curscore = 0;
+      actplay = 1;
+      p1score = 0;
+      p2score = 0;
+      p1cur.textContent = 0;
+      p2cur.textContent = 0;
+      document.querySelector(`.score1`).textContent = 0;
+      document.querySelector(`.score2`).textContent = 0;
+    }
+
+    function newgame1() {
+      init();
+    }
+
+    function closeModel(e) {
+      document.querySelector(".name-1").textContent = p1name.value;
+      document.querySelector(".name-2").textContent = p2name.value;
+      document.querySelector(".startup").style.display = "none";
+      section1.classList.remove("section1-hide");
+      section1.classList.add("section1");
+    }
+
+    rolldice.addEventListener("click", function (e) {
+      e.preventDefault();
+      const dice = Math.trunc(Math.random() * 5 + 1);
+      diceimg.src = `dice-${dice}.png`;
+      if (dice !== 1) {
+        curscore += dice;
+        document.querySelector(`.p${actplay}cur`).textContent = curscore;
+      } else {
+        shift();
+      }
+
+      if (p1score >= 100) {
+        document.getElementById(
+          "winnermsg"
+        ).textContent = `${p1name.value} won the game with ${p1score} points`;
+        section1.style.display = "none";
+        modal.style.display = "flex";
+      } else if (p2score >= 100) {
+        document.getElementById(
+          "winnermsg"
+        ).textContent = `${p2name.value} won the game with ${p2score} points`;
+        section1.style.display = "none";
+        modal.style.display = "flex";
+      }
+    });
+  </script>
+</html>
